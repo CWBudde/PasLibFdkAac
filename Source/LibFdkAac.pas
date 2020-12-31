@@ -186,49 +186,73 @@ type
     AOT_DRM_USAC         = 147  // Virtual AOT for DRM with USAC
   );
 
-  TFDK_MODULE_ID = (
-    FDK_NONE               = 0,
-    FDK_TOOLS              = 1,
-    FDK_SYSLIB             = 2,
-    FDK_AACDEC             = 3,
-    FDK_AACENC             = 4,
-    FDK_SBRDEC             = 5,
-    FDK_SBRENC             = 6,
-    FDK_TPDEC              = 7,
-    FDK_TPENC              = 8,
-    FDK_MPSDEC             = 9,
-    FDK_MPEGFILEREAD       = 10,
-    FDK_MPEGFILEWRITE      = 11,
-    FDK_MP2DEC             = 12,
-    FDK_DABDEC             = 13,
-    FDK_DABPARSE           = 14,
-    FDK_DRMDEC             = 15,
-    FDK_DRMPARSE           = 16,
-    FDK_AACLDENC           = 17,
-    FDK_MP2ENC             = 18,
-    FDK_MP3ENC             = 19,
-    FDK_MP3DEC             = 20,
-    FDK_MP3HEADPHONE       = 21,
-    FDK_MP3SDEC            = 22,
-    FDK_MP3SENC            = 23,
-    FDK_EAEC               = 24,
-    FDK_DABENC             = 25,
-    FDK_DMBDEC             = 26,
-    FDK_FDREVERB           = 27,
-    FDK_DRMENC             = 28,
-    FDK_METADATATRANSCODER = 29,
-    FDK_AC3DEC             = 30,
-    FDK_PCMDMX             = 31
+  TChannelMode = (
+    MODE_INVALID           = -1,
+    MODE_UNKNOWN           = 0,
+    MODE_1                 = 1,  // C */
+    MODE_2                 = 2,  // L+R */
+    MODE_1_2               = 3,  // C, L+R */
+    MODE_1_2_1             = 4,  // C, L+R, Rear */
+    MODE_1_2_2             = 5,  // C, L+R, LS+RS */
+    MODE_1_2_2_1           = 6,  // C, L+R, LS+RS, LFE */
+    MODE_1_2_2_2_1         = 7,  // C, LC+RC, L+R, LS+RS, LFE */
+
+    MODE_6_1               = 11, // C, L+R, LS+RS, Crear, LFE */
+    MODE_7_1_BACK          = 12, // C, L+R, LS+RS, Lrear+Rrear, LFE */
+    MODE_7_1_TOP_FRONT     = 14, // C, L+R, LS+RS, LFE, Ltop+Rtop */
+
+    MODE_7_1_REAR_SURROUND = 33, // C, L+R, LS+RS, Lrear+Rrear, LFE */
+    MODE_7_1_FRONT_CENTER  = 34, // C, LC+RC, L+R, LS+RS, LFE */
+
+    MODE_212               = 128 // 212 configuration, used in ELDv2
+  );
+
+  TFdkModuleID = (
+    fmNone               = 0,
+    fmTools              = 1,
+    fmSysLib             = 2,
+    fmAacDec             = 3,
+    fmAacEnc             = 4,
+    fmSbrDec             = 5,
+    fmSbrEnc             = 6,
+    fmTpDec              = 7,
+    fmTpEnc              = 8,
+    fmMpsDec             = 9,
+    fmMpegFileRead       = 10,
+    fmMpegFileWrite      = 11,
+    fmMp2Dec             = 12,
+    fmDabDec             = 13,
+    fmDabParse           = 14,
+    fmDrmDec             = 15,
+    fmDrmParse           = 16,
+    fmAacldEnc           = 17,
+    fmMp2Enc             = 18,
+    fmMp3Enc             = 19,
+    fmMp3Dec             = 20,
+    fmMp3Headphone       = 21,
+    fmMp3SDec            = 22,
+    fmMp3SEnc            = 23,
+    fmEAEC               = 24,
+    fmDabEnc             = 25,
+    fmDmbDec             = 26,
+    fmFDReverb           = 27,
+    fmDrmEnc             = 28,
+    fmMetaDataTranscoder = 29,
+    fmAc3Dec             = 30,
+    fmPcmDmx             = 31,
+    fmMpsEnc             = 34,
+    fmTdLimit            = 35,
+    fmUniDrcDec          = 38
   );
 
   TLibInfo = record
     title: PAnsiChar;
     build_date: PAnsiChar;
     build_time: PAnsiChar;
-    module_id: TFDK_MODULE_ID;
-    version: Integer;
+    module_id: TFdkModuleID;
+    version: Cardinal;
     flags: Cardinal;
-    versionStr: array[0..31] of Char;
+    versionStr: array[0..31] of AnsiChar;
   end;
   PLibInfo = ^TLibInfo;
 
@@ -562,18 +586,20 @@ type
 
   // Describes the input and output buffers for an aacEncEncode() call.
   AACENC_BufDesc = record
-    numBufs: Integer ;           // Number of buffers.
+    numBufs: Integer;            // Number of buffers.
     bufs: PPointer;              // Pointer to vector containing buffer addresses.
     bufferIdentifiers: PInteger; // Identifier of each buffer element.
     bufSizes: PInteger;          // Size of each buffer in 8-bit bytes.
     bufElSizes: PInteger;        // Size of each buffer element in bytes.
   end;
+  PAACENC_BufDesc = ^AACENC_BufDesc;
 
   // Defines the input arguments for an aacEncEncode() call.
   AACENC_InArgs = record
     numInSamples: Integer; // Number of valid input audio samples (multiple of input channels).
     numAncBytes: Integer;  // Number of ancillary data bytes to be encoded.
   end;
+  PAACENC_InArgs = ^AACENC_InArgs;
 
   //  Defines the output arguments for an aacEncEncode() call.
   AACENC_OutArgs = record
@@ -582,6 +608,7 @@ type
     numAncBytes: Integer;  // Number of ancillary data bytes consumed by the encoder.
     bitResState: Integer;  // State of the bit reservoir in bits. *)
   end;
+  PAACENC_OutArgs = ^AACENC_OutArgs;
 
   // Meta Data Compression Profiles.
   TAacEncMetaDataDrcProfile = (
@@ -996,7 +1023,7 @@ type
   TAacDecGetLibInfo = function (var info: TLibInfo): Integer; cdecl;
 
   TAacEncClose = function (phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl;
-  TAacEncEncode = function (const hAacEncoder: PAacEncoderInstance; var inBufDesc, outBufDesc: AACENC_BufDesc; var inargs: AACENC_InArgs; var outargs: AACENC_OutArgs): TAacEncoderError; cdecl;
+  TAacEncEncode = function (const hAacEncoder: PAacEncoderInstance; inBufDesc, outBufDesc: PAACENC_BufDesc; inargs: PAACENC_InArgs; outargs: PAACENC_OutArgs): TAacEncoderError; cdecl;
   TAacEncInfo = function (const hAacEncoder: PAacEncoderInstance; var Info: AACENC_InfoStruct): TAacEncoderError; cdecl;
   TAacEncOpen = function (phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl;
   TAacEncGetParam = function (const hAacEncoder: PAacEncoderInstance; const param: Cardinal): Cardinal; cdecl;
@@ -1030,7 +1057,7 @@ var
   function AacDecAncDataGet(Self: PAacDecoderInstance; index: Integer; var Buffer: PByte; var Size: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_AncDataGet';
   function AacDecSetParam(const Self: PAacDecoderInstance; const param: TAacDecParam; const value: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_SetParam';
   function AacDecGetFreeBytes(const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetFreeBytes';
-  function AacDecOpen(transportFmt: TTransportType; nrOfLayers: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Open';
+  function AacDecOpen(transportFmt: TTransportType; nrOfLayers: Cardinal): PAacDecoderInstance; cdecl; external CLibFdkAac name 'aacDecoder_Open';
   function AacDecConfigRaw(Self: PAacDecoderInstance; conf: PByte; const length: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_ConfigRaw';
   function AacDecFill(Self: PAacDecoderInstance; pBuffer: PByte; const bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
   function AacDecDecodeFrame(Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_DecodeFrame';
@@ -1038,10 +1065,10 @@ var
   function AacDecGetStreamInfo(Self: PAacDecoderInstance): TStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
   function AacDecGetLibInfo(var info: TLibInfo): Integer; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
 
-  function AacEncClose(phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
-  function AacEncEncode(const hAacEncoder: PAacEncoderInstance; var inBufDesc, outBufDesc: AACENC_BufDesc; var inargs: AACENC_InArgs; var outargs: AACENC_OutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncoder_Encode';
+  function AacEncClose(const hAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
+  function AacEncEncode(const hAacEncoder: PAacEncoderInstance; inBufDesc, outBufDesc: PAACENC_BufDesc; inargs: PAACENC_InArgs; outargs: PAACENC_OutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncEncode';
   function AacEncInfo(const hAacEncoder: PAacEncoderInstance; var Info: AACENC_InfoStruct): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncInfo';
-  function AacEncOpen(phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncOpen';
+  function AacEncOpen(out hAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncOpen';
   function AacEncGetParam(const hAacEncoder: PAacEncoderInstance; const param: TAacEncParam): Cardinal; cdecl; external CLibFdkAac name 'aacEncoder_GetParam';
   function AacEncSetParam(const hAacEncoder: PAacEncoderInstance; const param: TAacEncParam; const value: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncoder_SetParam';
   function AacEncGetLibInfo(var info: TLibInfo): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncGetLibInfo';
