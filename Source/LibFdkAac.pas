@@ -221,16 +221,16 @@ type
     FDK_PCMDMX             = 31
   );
 
-  TLIB_INFO = record
-    title: PChar;
-    build_date: PChar;
-    build_time: PChar;
+  TLibInfo = record
+    title: PAnsiChar;
+    build_date: PAnsiChar;
+    build_time: PAnsiChar;
     module_id: TFDK_MODULE_ID;
     version: Integer;
     flags: Cardinal;
     versionStr: array[0..31] of Char;
   end;
-  PLIB_INFO = ^TLIB_INFO;
+  PLibInfo = ^TLibInfo;
 
   TAACENC_CTRLFLAGS = (
     AACENC_INIT_NONE      = $0000, // Do not trigger initialization.
@@ -993,7 +993,7 @@ type
   TAacDecDecodeFrame = function (Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl;
   TAacDecClose = procedure (Self: PAacDecoderInstance); cdecl;
   TAacDecGetStreamInfo = function (Self: PAacDecoderInstance): TStreamInfo; cdecl;
-  TAacDecGetLibInfo = function (info: PLIB_INFO): Integer; cdecl;
+  TAacDecGetLibInfo = function (var info: TLibInfo): Integer; cdecl;
 
   TAacEncClose = function (phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl;
   TAacEncEncode = function (const hAacEncoder: PAacEncoderInstance; var inBufDesc, outBufDesc: AACENC_BufDesc; var inargs: AACENC_InArgs; var outargs: AACENC_OutArgs): TAacEncoderError; cdecl;
@@ -1001,7 +1001,7 @@ type
   TAacEncOpen = function (phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl;
   TAacEncGetParam = function (const hAacEncoder: PAacEncoderInstance; const param: Cardinal): Cardinal; cdecl;
   TAacEncSetParam = function (const hAacEncoder: PAacEncoderInstance; const param: Cardinal; const value: Cardinal): TAacEncoderError; cdecl;
-  TAacEncGetLibInfo = function (info: PLIB_INFO): TAacEncoderError; cdecl;
+  TAacEncGetLibInfo = function (var info: TLibInfo): TAacEncoderError; cdecl;
 
 var
   AacDecAncDataInit: TAacDecAncDataInit;
@@ -1036,7 +1036,7 @@ var
   function AacDecDecodeFrame(Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_DecodeFrame';
   procedure AacDecClose(Self: PAacDecoderInstance); cdecl; external CLibFdkAac name 'aacDecoder_Close';
   function AacDecGetStreamInfo(Self: PAacDecoderInstance): TStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
-  function AacDecGetLibInfo(info: PLIB_INFO): Integer; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
+  function AacDecGetLibInfo(var info: TLibInfo): Integer; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
 
   function AacEncClose(phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
   function AacEncEncode(const hAacEncoder: PAacEncoderInstance; var inBufDesc, outBufDesc: AACENC_BufDesc; var inargs: AACENC_InArgs; var outargs: AACENC_OutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncoder_Encode';
@@ -1044,7 +1044,7 @@ var
   function AacEncOpen(phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncOpen';
   function AacEncGetParam(const hAacEncoder: PAacEncoderInstance; const param: TAacEncParam): Cardinal; cdecl; external CLibFdkAac name 'aacEncoder_GetParam';
   function AacEncSetParam(const hAacEncoder: PAacEncoderInstance; const param: TAacEncParam; const value: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncoder_SetParam';
-  function AacEncGetLibInfo(info: PLIB_INFO): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncGetLibInfo';
+  function AacEncGetLibInfo(var info: TLibInfo): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncGetLibInfo';
 
 {$ENDIF}
 
