@@ -1,2 +1,2 @@
 # PasLibFdkAac
-Pascal port of the LibFdkAac library
+A straight forward pascal wrapper for the libfdk-aac library
