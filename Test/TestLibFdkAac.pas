@@ -71,23 +71,23 @@ end;
 procedure TestTTestClass.TestAacEncoder;
 var
   Encoder: PAacEncoderInstance;
-  EncoderInfo: AACENC_InfoStruct;
+  EncoderInfo: TAacEncInfoStruct;
   BufferInput: PByteArray;
   BufferOutput: PByteArray;
-  BufferDescInput: AACENC_BufDesc;
-  BufferDescOutput: AACENC_BufDesc;
+  BufferDescInput: TAacEncBufDesc;
+  BufferDescOutput: TAacEncBufDesc;
 const
   Channels = 2;
 begin
     if AacEncOpen(Encoder, 0, Channels) = aeOK then
     begin
-      Assert(AacEncSetParam(Encoder, AACENC_AOT, Integer(AOT_AAC_LC)) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_SAMPLERATE, 44100) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_CHANNELMODE, Cardinal(MODE_2)) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_CHANNELORDER, 1) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_BITRATEMODE, 0) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_BITRATE, 64000) = aeOK);
-      Assert(AacEncSetParam(Encoder, AACENC_TRANSMUX, 0) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepAOT, Integer(AOT_AAC_LC)) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepSamplerate, 44100) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepChannelMode, Cardinal(cm2)) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepChannelOrder, 1) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepBitratemode, 0) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepBitrate, 64000) = aeOK);
+      Assert(AacEncSetParam(Encoder, aepTransmux, 0) = aeOK);
       Assert(aacEncEncode(Encoder, nil, nil, nil, nil) = aeOK);
       Assert(aacEncInfo(Encoder, EncoderInfo) = aeOK);
 
@@ -95,7 +95,7 @@ begin
       GetMem(BufferOutput, 2 * Channels * EncoderInfo.frameLength);
 
       // check parameters
-      Assert(AacEncGetParam(Encoder, AACENC_SAMPLERATE) = 44100);
+      Assert(AacEncGetParam(Encoder, aepSamplerate) = 44100);
 
       // AacEncClose(Encoder);
     end;
