@@ -110,63 +110,63 @@ type
   );
 
   TAudioObjectType = (
-    AOT_NONE             = -1,
-    AOT_NULL_OBJECT      = 0,
-    AOT_AAC_MAIN         = 1, // Main profile
-    AOT_AAC_LC           = 2, // Low Complexity object
-    AOT_AAC_SSR          = 3,
-    AOT_AAC_LTP          = 4,
-    AOT_SBR              = 5,
-    AOT_AAC_SCAL         = 6,
-    AOT_TWIN_VQ          = 7,
-    AOT_CELP             = 8,
-    AOT_HVXC             = 9,
-    AOT_RSVD_10          = 10, // (reserved)
-    AOT_RSVD_11          = 11, // (reserved)
-    AOT_TTSI             = 12, // TTSI Object
-    AOT_MAIN_SYNTH       = 13, // Main Synthetic object
-    AOT_WAV_TAB_SYNTH    = 14, // Wavetable Synthesis object
-    AOT_GEN_MIDI         = 15, // General MIDI object
-    AOT_ALG_SYNTH_AUD_FX = 16, // Algorithmic Synthesis and Audio FX object
-    AOT_ER_AAC_LC        = 17, // Error Resilient(ER) AAC Low Complexity
-    AOT_RSVD_18          = 18, // (reserved)
-    AOT_ER_AAC_LTP       = 19, // Error Resilient(ER) AAC LTP object
-    AOT_ER_AAC_SCAL      = 20, // Error Resilient(ER) AAC Scalable object
-    AOT_ER_TWIN_VQ       = 21, // Error Resilient(ER) TwinVQ object
-    AOT_ER_BSAC          = 22, // Error Resilient(ER) BSAC object
-    AOT_ER_AAC_LD        = 23, // Error Resilient(ER) AAC LowDelay object
-    AOT_ER_CELP          = 24, // Error Resilient(ER) CELP object
-    AOT_ER_HVXC          = 25, // Error Resilient(ER) HVXC object
-    AOT_ER_HILN          = 26, // Error Resilient(ER) HILN object
-    AOT_ER_PARA          = 27, // Error Resilient(ER) Parametric object
-    AOT_RSVD_28          = 28, // might become SSC
-    AOT_PS               = 29, // PS, Parametric Stereo (includes SBR)
-    AOT_MPEGS            = 30, // MPEG Surround
+    aotNone             = -1,
+    aotNullObject       = 0,
+    aotAacMain          = 1, // Main profile
+    aotAacLC            = 2, // Low Complexity object
+    aotAacSSR           = 3,
+    aotAacLTP           = 4,
+    aotSBR              = 5,
+    aotAacSCAL          = 6,
+    aotTwinVQ           = 7,
+    aotCELP             = 8,
+    aotHVXC             = 9,
+    aotRSVD_10          = 10, // (reserved)
+    aotRSVD_11          = 11, // (reserved)
+    aotTTSI             = 12, // TTSI Object
+    aotMainSynthetic    = 13, // Main Synthetic object
+    aotWavTabSynth      = 14, // Wavetable Synthesis object
+    aotGeneralMIDI      = 15, // General MIDI object
+    aotAlgSynthAudioFX  = 16, // Algorithmic Synthesis and Audio FX object
+    aotErrorResAacLC    = 17, // Error Resilient(ER) AAC Low Complexity
+    aotRSVD_18          = 18, // (reserved)
+    aotErrorResAacLTP   = 19, // Error Resilient(ER) AAC LTP object
+    aotErrorResAacSCAL  = 20, // Error Resilient(ER) AAC Scalable object
+    aotErrorResTwinVQ   = 21, // Error Resilient(ER) TwinVQ object
+    aotErrorResBSAC     = 22, // Error Resilient(ER) BSAC object
+    aotErrorResAacLD    = 23, // Error Resilient(ER) AAC LowDelay object
+    aotErrorResCELP     = 24, // Error Resilient(ER) CELP object
+    aotErrorResHVXC     = 25, // Error Resilient(ER) HVXC object
+    aotErrorResHILN     = 26, // Error Resilient(ER) HILN object
+    aotErrorResPara     = 27, // Error Resilient(ER) Parametric object
+    aotRSVD_28          = 28, // might become SSC
+    aotPS               = 29, // PS, Parametric Stereo (includes SBR)
+    aotMpegS            = 30, // MPEG Surround
 
-    AOT_ESCAPE           = 31, // Signal AOT uses more than 5 bits
+    aotEscape           = 31, // Signal AOT uses more than 5 bits
 
-    AOT_MP3ONMP4_L1      = 32, // MPEG-Layer1 in mp4
-    AOT_MP3ONMP4_L2      = 33, // MPEG-Layer2 in mp4
-    AOT_MP3ONMP4_L3      = 34, // MPEG-Layer3 in mp4
-    AOT_RSVD_35          = 35, // might become DST
-    AOT_RSVD_36          = 36, // might become ALS
-    AOT_AAC_SLS          = 37, // AAC + SLS
-    AOT_SLS              = 38, // SLS
-    AOT_ER_AAC_ELD       = 39, // AAC Enhanced Low Delay
+    aotMp3OnMp4Layer1   = 32, // MPEG-Layer1 in mp4
+    aotMp3OnMp4Layer2   = 33, // MPEG-Layer2 in mp4
+    aotMp3OnMp4Layer3   = 34, // MPEG-Layer3 in mp4
+    aotRSVD_35          = 35, // might become DST
+    aotRSVD_36          = 36, // might become ALS
+    aotAacSLS           = 37, // AAC + SLS
+    aotSLS              = 38, // SLS
+    aotErrorResAacELD   = 39, // AAC Enhanced Low Delay
 
-    AOT_USAC             = 42, // USAC
-    AOT_SAOC             = 43, // SAOC
-    AOT_LD_MPEGS         = 44, // Low Delay MPEG Surround
+    aotUSAC             = 42, // USAC
+    aotSAOC             = 43, // SAOC
+    aotLowDelayMpegS    = 44, // Low Delay MPEG Surround
 
     // Pseudo AOTs
-    AOT_MP2_AAC_LC       = 129, // Virtual AOT MP2 Low Complexity profile
-    AOT_MP2_SBR          = 132, // Virtual AOT MP2 Low Complexity Profile with SBR
+    aotMp2AacLC         = 129, // Virtual AOT MP2 Low Complexity profile
+    aotMp2Sbr           = 132, // Virtual AOT MP2 Low Complexity Profile with SBR
 
-    AOT_DRM_AAC          = 143, // Virtual AOT for DRM (ER-AAC-SCAL without SBR)
-    AOT_DRM_SBR          = 144, // Virtual AOT for DRM (ER-AAC-SCAL with SBR)
-    AOT_DRM_MPEG_PS      = 145, // Virtual AOT for DRM (ER-AAC-SCAL with SBR and MPEG-PS)
-    AOT_DRM_SURROUND     = 146, // Virtual AOT for DRM Surround (ER-AAC-SCAL (+SBR) +MPS)
-    AOT_DRM_USAC         = 147  // Virtual AOT for DRM with USAC
+    aotDrmAac           = 143, // Virtual AOT for DRM (ER-AAC-SCAL without SBR)
+    aotDrmSbr           = 144, // Virtual AOT for DRM (ER-AAC-SCAL with SBR)
+    aotDrmMpegPS        = 145, // Virtual AOT for DRM (ER-AAC-SCAL with SBR and MPEG-PS)
+    aotDrmSurround      = 146, // Virtual AOT for DRM Surround (ER-AAC-SCAL (+SBR) +MPS)
+    aotDrmUSAC          = 147  // Virtual AOT for DRM with USAC
   );
 
   TChannelMode = (
@@ -216,74 +216,74 @@ type
 
   // Audio Codec flags
   TAudioCodecFlag = (
-    AC_ER_VCB11      =  0, // aacSectionDataResilienceFlag flag (from ASC): 1 means use virtual codebooks
-    AC_ER_RVLC       =  1, // aacSpectralDataResilienceFlag flag (from ASC): 1 means use huffman codeword reordering
-    AC_ER_HCR        =  2, // aacSectionDataResilienceFlag flag (from ASC): 1 means use virtual codebooks
-    AC_SCALABLE      =  3, // AAC Scalable
-    AC_ELD           =  4, // AAC-ELD
-    AC_LD            =  5, // AAC-LD
-    AC_ER            =  6, // ER syntax
-    AC_BSAC          =  7, // BSAC
-    AC_USAC          =  8, // USAC
-    AC_RSV603DA      =  9, // RSVD60 3D audio
-    AC_HDAAC         = 10, // HD-AAC
-    AC_RSVD50        = 14, // Rsvd50
-    AC_SBR_PRESENT   = 15, // SBR present flag (from ASC)
-    AC_SBRCRC        = 16, // SBR CRC present flag. Only relevant for AAC-ELD for now.
-    AC_PS_PRESENT    = 17, // PS present flag (from ASC or implicit)
-    AC_MPS_PRESENT   = 18, // MPS present flag (from ASC or implicit)
-    AC_DRM           = 19, // DRM bit stream syntax
-    AC_INDEP         = 20, // Independency flag
-    AC_MPEGD_RES     = 21, // MPEG-D residual individual channel data.
-    AC_SAOC_PRESENT  = 22, // SAOC Present Flag
-    AC_DAB           = 23, // DAB bit stream syntax
-    AC_ELD_DOWNSCALE = 24, // ELD Downscaled playout
-    AC_LD_MPS        = 25, // Low Delay MPS.
-    AC_DRC_PRESENT   = 26, // Dynamic Range Control (DRC) data found.
-    AC_USAC_SCFGI3   = 27  // USAC flag: If stereoConfigIndex is 3 the flag is set.
+    acER_VCB11       =  0, // aacSectionDataResilienceFlag flag (from ASC): 1 means use virtual codebooks
+    acER_RVLC        =  1, // aacSpectralDataResilienceFlag flag (from ASC): 1 means use huffman codeword reordering
+    acER_HCR         =  2, // aacSectionDataResilienceFlag flag (from ASC): 1 means use virtual codebooks
+    acSCALABLE       =  3, // AAC Scalable
+    acELD            =  4, // AAC-ELD
+    acLD             =  5, // AAC-LD
+    acER             =  6, // ER syntax
+    acBSAC           =  7, // BSAC
+    acUSAC           =  8, // USAC
+    acRSV603DA       =  9, // RSVD60 3D audio
+    acHDAAC          = 10, // HD-AAC
+    acRSVD50         = 14, // Rsvd50
+    acSbrPresent     = 15, // SBR present flag (from ASC)
+    acSbrCRC         = 16, // SBR CRC present flag. Only relevant for AAC-ELD for now.
+    acPsPresent      = 17, // PS present flag (from ASC or implicit)
+    acMpsPresent     = 18, // MPS present flag (from ASC or implicit)
+    acDrm            = 19, // DRM bit stream syntax
+    acINDEP          = 20, // Independency flag
+    acMpegDResidual  = 21, // MPEG-D residual individual channel data.
+    acSAOC_Present   = 22, // SAOC Present Flag
+    acDAB            = 23, // DAB bit stream syntax
+    acELD_DownScale  = 24, // ELD Downscaled playout
+    acLowDelayMPS    = 25, // Low Delay MPS.
+    acDrcPresent     = 26, // Dynamic Range Control (DRC) data found.
+    acUSAC_SCFGI3    = 27  // USAC flag: If stereoConfigIndex is 3 the flag is set.
   );
   TAudioCodecFlags = set of TAudioCodecFlag;
 
   // Audio Codec flags (reconfiguration).
   TAudioCodecReconfigurationFlag = (
-    acfCM_DET_CFG_CHANGE = 0, // Config mode signalizes the callback to work in config change detection mode
-    acfCM_ALLOC_MEM      = 1  // Config mode signalizes the callback to work in memory allocation mode
+    acrDetCfgChange = 0, // Config mode signalizes the callback to work in config change detection mode
+    acrAllocMem     = 1  // Config mode signalizes the callback to work in memory allocation mode
   );
   TAudioCodecReconfigurationFlags = set of TAudioCodecReconfigurationFlag;
 
   // Audio Codec flags (element specific).
   TAudioCodecElementSpecificFlag = (
-    acfEL_USAC_TW          =  0, // USAC time warped filter bank is active
-    acfEL_USAC_NOISE       =  1, // USAC noise filling is active
-    acfEL_USAC_ITES        =  2, // USAC SBR inter-TES tool is active
-    acfEL_USAC_PVC         =  3, // USAC SBR predictive vector coding tool is active
-    acfEL_USAC_MPS212      =  4, // USAC MPS212 tool is active
-    acfEL_USAC_LFE         =  5, // USAC element is LFE
-    acfEL_USAC_CP_POSSIBLE =  6, // USAC may use Complex Stereo Prediction in this channel element
-    acfEL_ENHANCED_NOISE   =  7, // Enhanced noise filling
-    acfEL_IGF_AFTER_TNS    =  8, // IGF after TNS
-    acfEL_IGF_INDEP_TILING =  9, // IGF independent tiling
-    acfEL_IGF_USE_ENF      = 10, // IGF use enhanced noise filling
-    acfEL_FULLBANDLPD      = 11, // enable fullband LPD tools
-    acfEL_LPDSTEREOIDX     = 12, // LPD-stereo-tool stereo index
-    acfEL_LFE              = 13  // The element is of type LFE.
+    aceUSAC_TW          =  0, // USAC time warped filter bank is active
+    aceUSAC_Noise       =  1, // USAC noise filling is active
+    aceUSAC_ITES        =  2, // USAC SBR inter-TES tool is active
+    aceUSAC_PVC         =  3, // USAC SBR predictive vector coding tool is active
+    aceUSAC_MPS212      =  4, // USAC MPS212 tool is active
+    aceUSAC_LFE         =  5, // USAC element is LFE
+    aceUSAC_CP_Possible =  6, // USAC may use Complex Stereo Prediction in this channel element
+    aceEnhancedNoise    =  7, // Enhanced noise filling
+    aceIGF_AfterTNS     =  8, // IGF after TNS
+    aceIGF_IndepTiling  =  9, // IGF independent tiling
+    aceIGF_UseENF       = 10, // IGF use enhanced noise filling
+    aceFullbandLPD      = 11, // enable fullband LPD tools
+    aceLPDStereoIdx     = 12, // LPD-stereo-tool stereo index
+    aceLFE              = 13  // The element is of type LFE.
   );
   TAudioCodecElementSpecificFlags = set of TAudioCodecElementSpecificFlag;
 
   TCoderConfigFlag = (
-    CC_SBRCRC          = 16,
-    CC_SAC             = 17,
-    CC_MPEG_ID         = 20,
-    CC_IS_BASELAYER    = 21,
-    CC_PROTECTION      = 22,
-    CC_SBR             = 23,
-    CC_RVLC            = 24,
-    CC_VCB11           = 25,
-    CC_HCR             = 26,
-    CC_PSEUDO_SURROUND = 27,
-    CC_USAC_NOISE      = 28,
-    CC_USAC_TW         = 29,
-    CC_USAC_HBE        = 30
+    ccSBRCRC          = 16,
+    ccSAC             = 17,
+    ccMPEG_ID         = 20,
+    ccIS_BASELAYER    = 21,
+    ccPROTECTION      = 22,
+    ccSBR             = 23,
+    ccRVLC            = 24,
+    ccVCB11           = 25,
+    ccHCR             = 26,
+    ccPSEUDO_SURROUND = 27,
+    ccUSAC_NOISE      = 28,
+    ccUSAC_TW         = 29,
+    ccUSAC_HBE        = 30
   );
   TCoderConfigFlags = set of TCoderConfigFlag;
 
@@ -347,13 +347,13 @@ type
   // usacConfigExtType q.v. ISO/IEC DIS 23008-3 Table 52  and  ISO/IEC FDIS 23003-3:2011(E) Table 74 */
   TConfigExtID = (
     // USAC and RSVD60 3DA
-    ID_CONFIG_EXT_FILL = 0,
+    ceFill = 0,
     // RSVD60 3DA
-    ID_CONFIG_EXT_DOWNMIX = 1,
-    ID_CONFIG_EXT_LOUDNESS_INFO = 2,
-    ID_CONFIG_EXT_AUDIOSCENE_INFO = 3,
-    ID_CONFIG_EXT_HOA_MATRIX = 4,
-    ID_CONFIG_EXT_SIG_GROUP_INFO = 6
+    ceDownMix = 1,
+    ceLoudnessInfo = 2,
+    ceAudiosceneInfo = 3,
+    ceHoaMatrix = 4,
+    ceSigGroupInfo = 6
     // 5-127 => reserved for ISO use
     // > 128 => reserved for use outside of ISO scope
   );
@@ -563,7 +563,7 @@ type
   TAacEncCtrlFlags = set of TAacEncCtrlFlag;
 
   TAacEncoderParam = (
-    aepAOT = $0100,
+    aepAudioObjectType = $0100,
       (* Audio object type. See TAudioObjectType
         - 2: MPEG-4 AAC Low Complexity.
         - 5: MPEG-4 AAC Low Complexity with Spectral Band Replication (HE-AAC).
@@ -587,7 +587,7 @@ type
            - CBR: Bitrate in bits/second.
            - VBR: Variable bitrate. Bitrate argument will be ignored. *)
 
-    aepBitratemode = $0102,
+    aepBitrateMode = $0102,
       (* Bitrate mode. Configuration can be different kind of bitrate configurations:
            - 0: Constant bitrate, use bitrate according to aepBitrate. (default)
                 Within none LD/ELD TAudioObjectType, the CBR mode makes
@@ -782,15 +782,13 @@ type
 *)
   TAacEncBufferIdentifier = (
     // Input buffer identifier.
-    IN_AUDIO_DATA = 0,    (* Audio input buffer, interleaved INT_PCM samples. *)
-    IN_ANCILLRY_DATA = 1, (* Ancillary data to be embedded into bitstream. *)
-    IN_METADATA_SETUP = 2, (* Setup structure for embedding meta data. *)
+    biInAudioData = 0,     // Audio input buffer, interleaved INT_PCM samples.
+    biInAncillaryData = 1, // Ancillary data to be embedded into bitstream.
+    biInMetadataSetup = 2, // Setup structure for embedding meta data.
 
     // Output buffer identifier.
-    OUT_BITSTREAM_DATA = 3, (* Buffer holds bitstream output data. *)
-    OUT_AU_SIZES =
-        4 (* Buffer contains sizes of each access unit. This information
-               is necessary for superframing. *)
+     biOutBitstreamData = 3, // Buffer holds bitstream output data.
+    biOutAccessUnitSizes = 4 // Buffer contains sizes of each access unit. This information is necessary for superframing.
   );
   PAacEncBufferIdentifier = ^TAacEncBufferIdentifier;
 
@@ -847,14 +845,14 @@ type
     bufSizes: PInteger; // Size of each buffer in 8-bit bytes.
     bufElSizes: PInteger; // Size of each buffer element in bytes.
   end;
-  PTAacEncBufDesc = ^TAacEncBufDesc;
+  PAacEncBufDesc = ^TAacEncBufDesc;
 
   // Defines the input arguments for an aacEncEncode() call.
   TAacEncInArgs = record
     numInSamples: Integer; // Number of valid input audio samples (multiple of input channels).
     numAncBytes: Integer;  // Number of ancillary data bytes to be encoded.
   end;
-  PTAacEncInArgs = ^TAacEncInArgs;
+  PAacEncInArgs = ^TAacEncInArgs;
 
   //  Defines the output arguments for an aacEncEncode() call.
   TAacEncOutArgs = record
@@ -863,7 +861,7 @@ type
     numAncBytes: Integer;  // Number of ancillary data bytes consumed by the encoder.
     bitResState: Integer;  // State of the bit reservoir in bits.
   end;
-  PTAacEncOutArgs = ^TAacEncOutArgs;
+  PAacEncOutArgs = ^TAacEncOutArgs;
 
   // Meta Data Compression Profiles.
   TAacEncMetaDataDrcProfile = (
@@ -944,30 +942,30 @@ const
   AACDEC_INTR    = 4;
 
 type
-  TAAC_MD_PROFILE = (
-    AAC_MD_PROFILE_MPEG_STANDARD = 0,
+  TAacMD_PROFILE = (
+    AacMD_PROFILE_MPEG_STANDARD = 0,
       (* The standard profile creates a mixdown signal based on the advanced
          downmix metadata (from a DSE). The equations and default values are
          defined in ISO/IEC 14496:3 Ammendment 4. Any other (legacy) downmix
          metadata will be ignored. No other parameter will be modified. *)
-    AAC_MD_PROFILE_MPEG_LEGACY = 1,
+    AacMD_PROFILE_MPEG_LEGACY = 1,
       (* This profile behaves identical to the standard profile if advanced
          downmix metadata (from a DSE) is available. If not, the matrix_mixdown
          information embedded in the program configuration element (PCE) will
          be applied. If neither is the case, the module creates a mixdown using
          the default coefficients as defined in ISO/IEC 14496:3 AMD 4.
          The profile can be used to support legacy digital TV (e.g. DVB) streams. *)
-    AAC_MD_PROFILE_MPEG_LEGACY_PRIO = 2,
-      (* Similar to the ::AAC_MD_PROFILE_MPEG_LEGACY profile but if both
+    AacMD_PROFILE_MPEG_LEGACY_PRIO = 2,
+      (* Similar to the ::AacMD_PROFILE_MPEG_LEGACY profile but if both
          the advanced (ISO/IEC 14496:3 AMD 4) and the legacy (PCE) MPEG
          downmix metadata are available the latter will be applied. *)
 
-    AAC_MD_PROFILE_ARIB_JAPAN = 3
+    AacMD_PROFILE_ARIB_JAPAN = 3
       (* Downmix creation as described in ABNT NBR 15602-2. But if advanced
          downmix metadata (ISO/IEC 14496:3 AMD 4) is available it will be
          preferred because of the higher resolutions. In addition the
          metadata expiry time will be set to the value defined in the ARIB
-         standard (see ::AAC_METADATA_EXPIRY_TIME). *)
+         standard (see ::AacMETADATA_EXPIRY_TIME). *)
   );
 
   TAacDrcDefaultPresentationModeOptions = (
@@ -982,7 +980,7 @@ type
   );
 
   TAacDecoderParam = (
-    AAC_PCM_DUAL_CHANNEL_OUTPUT_MODE = $0002,
+    dpPcmDualChannelOutputMode = $0002,
       (* Defines how the decoder processes two channel signals:
            0: Leave both signals as they are (default).
            1: Create a dual mono output signal from channel 1.
@@ -990,12 +988,12 @@ type
            3: Create a dual mono output signal by mixing both channels
            (L' = R' = 0.5*Ch1 + 0.5*Ch2). *)
 
-    AAC_PCM_OUTPUT_CHANNEL_MAPPING = $0003,
+    dpPcmOutputChannelMapping = $0003,
       (* Output buffer channel ordering.
            0: MPEG PCE style order,
            1: WAV file channel order (default). *)
 
-    AAC_PCM_LIMITER_ENABLE = $0004,
+    dpPcmLimiterEnable = $0004,
       (* Enable signal level limiting.
            -1: Auto-config. Enable limiter for all non-lowdelay configurations by default.
             0: Disable limiter in general.
@@ -1003,22 +1001,22 @@ type
          It is recommended to call the decoder with a AACDEC_CLRHIST flag to
          reset all states when the limiter switch is changed explicitly. *)
 
-    AAC_PCM_LIMITER_ATTACK_TIME = $0005,
+    dpPcmLimiterAttackTime = $0005,
       (* Signal level limiting attack time in ms.
          Default configuration is 15 ms.
          Adjustable range from 1 ms to 15 ms. *)
 
-    AAC_PCM_LIMITER_RELEAS_TIME = $0006,
+    dpPcmLimiterReleaseTime = $0006,
       (* Signal level limiting release time in ms.
          Default configuration is 50 ms.
          Adjustable time must be larger than 0 ms. *)
 
-    AAC_PCM_MIN_OUTPUT_CHANNELS = $0011,
+    dpPcmMinOutputChannels = $0011,
       (* Minimum number of PCM output channels. If higher than the
          number of encoded audio channels, a simple channel extension is
          applied (see note 4 for exceptions).
            -1, 0: Disable channel extension feature. The decoder output contains the same number of channels as the encoded bitstream.
-               1: This value is currently needed only together with the mix-down feature. See ::AAC_PCM_MAX_OUTPUT_CHANNELS and note 2 below.
+               1: This value is currently needed only together with the mix-down feature. See ::dpPcmMAX_OUTPUT_CHANNELS and note 2 below.
                2: Encoded mono signals will be duplicated to achieve a 2/0/0.0 channel output configuration.
                6: The decoder tries to reorder encoded signals with less than six channels to achieve a 3/0/2.1 channel output signal.
                   Missing channels will be filled with a zero signal. If reordering is not possible the empty channels will simply be appended.
@@ -1031,10 +1029,10 @@ type
               CStreamInfo::pChannelIndices) will not be modified. Added empty
               channels will be signaled with channel type AUDIO_CHANNEL_TYPE::ACT_NONE.
            2. If the parameter value is greater than that of
-              ::AAC_PCM_MAX_OUTPUT_CHANNELS both will be set to the same value.
+              ::dpPcmMAX_OUTPUT_CHANNELS both will be set to the same value.
            3. This parameter will be ignored if the number of encoded audio channels is greater than 8. *)
 
-    AAC_PCM_MAX_OUTPUT_CHANNELS = $0012,
+    dpPcmMaxOutputChannels = $0012,
       (* Maximum number of PCM output channels. If lower than the
          number of encoded audio channels, downmixing is applied
          accordingly (see note 5 for exceptions). If dedicated metadata
@@ -1045,32 +1043,32 @@ type
                2: The decoder performs a stereo mix-down if the number encoded audio channels is greater than two.
                6: If the number of encoded audio channels is greater than six the decoder performs a mix-down to meet the target output configuration of 3/0/2.1 channels.
                   Only available if instance is configured to support multichannel output.
-               8: This value is currently needed only together with the channel extension feature. See ::AAC_PCM_MIN_OUTPUT_CHANNELS and note 2 below.
+               8: This value is currently needed only together with the channel extension feature. See ::dpPcmMIN_OUTPUT_CHANNELS and note 2 below.
                   Only available if instance is configured to support multichannel output.
          NOTE:
            1. Down-mixing of any seven or eight channel configuration not defined in
               ISO/IEC 14496-3 PDAM 4 is not supported by this software version.
            2. If the parameter value is greater than zero but smaller than
-              ::AAC_PCM_MIN_OUTPUT_CHANNELS both will be set to same value.
+              ::dpPcmMIN_OUTPUT_CHANNELS both will be set to same value.
            3. This parameter will be ignored if the number of encoded audio
               channels is greater than 8. *)
 
-    AAC_METADATA_PROFILE = $0020,
-      (* See ::AAC_MD_PROFILE for all available values. *)
+    dpMetadataProfile = $0020,
+      (* See ::AacMD_PROFILE for all available values. *)
 
-    AAC_METADATA_EXPIRY_TIME = $0021,
+    dpMetadataExpiryTime = $0021,
       (* Defines the time in ms after which all the bitstream associated
          meta-data (DRC, downmix coefficients, ...) will be reset to default if
          no update has been received. Negative values disable the feature. *)
 
-    AAC_CONCEAL_METHOD = $0100,
+    dpConcealMethod = $0100,
       (* Error concealment: Processing method.
            0: Spectral muting.
            1: Noise substitution (see ::CONCEAL_NOISE).
            2: Energy interpolation (adds additional signal delay of one frame,
               see ::CONCEAL_INTER. only some AOTs are supported). *)
 
-    AAC_DRC_BOOST_FACTOR = $0200,
+    dpDrcBoostFactor = $0200,
       (* MPEG-4 / MPEG-D Dynamic Range Control (DRC):
            Scaling factor for boosting gain values. Defines how the boosting
            DRC factors (conveyed in the bitstream) will be applied to the
@@ -1078,11 +1076,11 @@ type
            factors) to 127 (fully apply boost factors). Default value is 0
            for MPEG-4 DRC and 127 for MPEG-D DRC. *)
 
-    AAC_DRC_ATTENUATION_FACTOR = $0201,
+    dpDrcAttenuationFactor = $0201,
       (* MPEG-4 / MPEG-D DRC: Scaling factor for attenuating gain values.
-         Same as ::AAC_DRC_BOOST_FACTOR but for attenuating DRC factors. *)
+         Same as ::AacDRC_BOOST_FACTOR but for attenuating DRC factors. *)
 
-    AAC_DRC_REFERENCE_LEVEL = $0202,
+    dpDrcReferenceLevel = $0202,
       (* MPEG-4 / MPEG-D DRC: Target reference level / decoder target loudness.
          Defines the level below full-scale (quantized in steps of 0.25dB) to
          which the output audio signal will be normalized to by the DRC module.
@@ -1096,34 +1094,34 @@ type
                    playback is restricted.
          Any value smaller than 0 switches off loudness normalization and MPEG-4 DRC. *)
 
-    AAC_DRC_HEAVY_COMPRESSION = $0203,
+    dpDrcHeavyCompression = $0203,
       (* MPEG-4 DRC: En-/Disable DVB specific heavy compression (aka RF mode).
          If set to 1, the decoder will apply the compression values from the
          DVB specific ancillary data field. At the same time the MPEG-4
          Dynamic Range Control tool will be disabled. By default, heavy
          compression is disabled. *)
 
-    AAC_DRC_DEFAULT_PRESENTATION_MODE = $0204,
+    dpDrcDefaultPresentationMode = $0204,
       (* MPEG-4 DRC: Default presentation mode (DRC parameter handling).
          Defines the handling of the DRC parameters boost factor, attenuation
          factor and heavy compression, if no presentation mode is indicated in
          the bitstream.
-           For options, see ::AAC_DRC_DEFAULT_PRESENTATION_MODE_OPTIONS.
+           For options, see ::AacDrcDEFAULT_PRESENTATION_MODE_OPTIONS.
          Default:
-           ::AAC_DRC_PARAMETER_HANDLING_DISABLED *)
+           ::AacDrcPARAMETER_HANDLING_DISABLED *)
 
-    AAC_DRC_ENC_TARGET_LEVEL = $0205,
+    dpDrcEncTargetLevel = $0205,
       (* MPEG-4 DRC: Encoder target level for light (i.e. not heavy)
          compression.
            If known, this declares the target reference
          level that was assumed at the encoder for calculation of
          limiting gains. The valid values range from 0 (full-scale) to
          127 (31.75 dB below full-scale). This parameter is used only
-         with ::AAC_DRC_PARAMETER_HANDLING_ENABLED and ignored
+         with ::AacDrcPARAMETER_HANDLING_ENABLED and ignored
          otherwise.
            Default: 127 (worst-case assumption). *)
 
-    AAC_UNIDRC_SET_EFFECT = $0206,
+    dpUniDrcSetEffect = $0206,
       (* MPEG-D DRC: Request a DRC effect type for selection of a DRC set.
          Supported indices are:
            -1: DRC off. Completely disables MPEG-D DRC.
@@ -1135,7 +1133,7 @@ type
             5: Dialog enhancement
             6: General compression. Used for generally enabling MPEG-D DRC without particular request. *)
 
-    AAC_UNIDRC_ALBUM_MODE = $0207,
+    dpUniDrcAlbumMode = $0207,
       (*  MPEG-D DRC: Enable album mode.
             0: Disabled (default),
             1: Enabled.
@@ -1144,13 +1142,13 @@ type
            Enabled album mode makes use of dedicated album loudness information,
          if provided in the bitstream. *)
 
-    AAC_QMF_LOWPOWER = $0300,
+    dpQmfLowPower = $0300,
       (* Quadrature Mirror Filter (QMF) Bank processing mode.
            -1: Use internal default.
             0: Use complex QMF data mode.
             1: Use real (low power) QMF data mode. *)
 
-    AAC_TPDEC_CLEAR_BUFFER = $0603
+    AacTpDecClearBuffer = $0603
       (* Clear internal bit stream buffer of transport layers.
          The decoder will start decoding at new data passed after this event
          and any previous data is discarded. *)
@@ -1208,7 +1206,7 @@ type
     (* Statistics *)
     numLostAccessUnits: Integer; (* This integer will reflect the estimated amount of
                                lost access units in case aacDecoder_DecodeFrame()
-                                 returns AAC_DEC_TRANSPORT_SYNC_ERROR. It will be
+                                 returns AacDEC_TRANSPORT_SYNC_ERROR. It will be
                                < 0 if the estimation failed. *)
 
     numTotalBytes: INT64; (* This is the number of total bytes that have passed
@@ -1244,16 +1242,47 @@ type
     outputLoudness: Integer;
       (* Audio output loudness in steps of -0.25 dB. Range: 0 (0 dBFS) to 231 (-57.75 dBFS).
          A value of -1 indicates that no loudness metadata is present.
-         If loudness normalization is active, the value corresponds to the target loudness value set with ::AAC_DRC_REFERENCE_LEVEL.
+         If loudness normalization is active, the value corresponds to the target loudness value set with ::AacDRC_REFERENCE_LEVEL.
          If loudness normalization is not active, the output loudness value corresponds to the loudness metadata given in the bitstream.
          Loudness metadata can originate from MPEG-4 DRC or MPEG-D DRC. *)
 
   end;
 
+  TUserParam = record
+    userAOT: TAudioObjectType; // Audio Object Type.
+    userSamplerate: Cardinal;       // Sampling frequency.
+    nChannels: Cardinal;            // will be set via channelMode.
+    userChannelMode: TChannelMode;
+    userBitrate: Cardinal;
+    userBitrateMode: Cardinal;
+    userBandwidth: Cardinal;
+    userAfterburner: Cardinal;
+    userFramelength: Cardinal;
+    userAncDataRate: Cardinal;
+    userPeakBitrate: Cardinal;
+    userTns: Byte;       // Use TNS coding.
+    userPns: Byte;       // Use PNS coding.
+    userIntensity: Byte; //  Use Intensity coding.
+    userTpType: TTransportType; // Transport type
+    userTpSignaling: Byte;      // Extension AOT signaling mode.
+    userTpNsubFrames: Byte;     // Number of sub frames in a transport frame for LOAS/LATM or ADTS (default 1).
+    userTpAmxv: Byte;           // AudioMuxVersion to be used for LATM (default 0).
+    userTpProtection: Byte;
+    userTpHeaderPeriod: Byte;   // Parameter used to configure LATM/LOAS SMC rate. Moreover this parameters is used to configure repetition rate of PCE in raw_data_block.
+    userErTools: Byte;          // Use VCB11, HCR and/or RVLC ER tool.
+    userPceAdditions: Cardinal; // Configure additional bits in PCE.
+    userMetaDataMode: Byte;     // Meta data library configuration.
+    userSbrEnabled: Byte;       // Enable SBR for ELD.
+    userSbrRatio: Cardinal;     // SBR sampling rate ratio. Dual- or single-rate.
+    userDownscaleFactor: Cardinal;
+  end;
+
   TAacDecoderInstance = record end;
   PAacDecoderInstance = ^TAacDecoderInstance;
 
-  TAacEncoderInstance = record end;
+  TAacEncoderInstance = record
+    extParam: TUserParam;
+  end;
   PAacEncoderInstance = ^TAacEncoderInstance;
 
 {$IFDEF DynLink}
@@ -1263,17 +1292,17 @@ type
   TAacDecSetParam = function (const Self: PAacDecoderInstance; const param: TAacDecParam; const value: Integer): TAacDecoderError; cdecl;
   TAacDecGetFreeBytes = function (const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl;
   TAacDecOpen = function (transportFmt: TTransportType; nrOfLayers: Cardinal): TAacDecoderError; cdecl;
-  TAacDecConfigRaw = function (Self: PAacDecoderInstance; conf: PByte; const length: Cardinal): TAacDecoderError; cdecl;
+  TAacDecConfigRaw = function (Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl;
   TAacDecFill = function (Self: PAacDecoderInstance; pBuffer: PByte; const bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl;
   TAacDecDecodeFrame = function (Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl;
   TAacDecClose = procedure (Self: PAacDecoderInstance); cdecl;
   TAacDecGetStreamInfo = function (Self: PAacDecoderInstance): TStreamInfo; cdecl;
   TAacDecGetLibInfo = function (var info: TLibInfo): Integer; cdecl;
 
-  TAacEncClose = function (phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl;
-  TAacEncEncode = function (const hAacEncoder: PAacEncoderInstance; inBufDesc, outBufDesc: PTAacEncBufDesc; inargs: PTAacEncInArgs; outargs: PTAacEncOutArgs): TAacEncoderError; cdecl;
+  TAacEncClose = function (out phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl;
+  TAacEncEncode = function (const hAacEncoder: PAacEncoderInstance; const inBufDesc, outBufDesc: PAacEncBufDesc; const inargs: PAacEncInArgs; outargs: PAacEncOutArgs): TAacEncoderError; cdecl;
   TAacEncInfo = function (const hAacEncoder: PAacEncoderInstance; var Info: TAacEncInfoStruct): TAacEncoderError; cdecl;
-  TAacEncOpen = function (phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl;
+  TAacEncOpen = function (out phAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl;
   TAacEncGetParam = function (const hAacEncoder: PAacEncoderInstance; const param: Cardinal): Cardinal; cdecl;
   TAacEncSetParam = function (const hAacEncoder: PAacEncoderInstance; const param: Cardinal; const value: Cardinal): TAacEncoderError; cdecl;
   TAacEncGetLibInfo = function (var info: TLibInfo): TAacEncoderError; cdecl;
@@ -1306,15 +1335,15 @@ var
   function AacDecSetParam(const Self: PAacDecoderInstance; const param: TAacDecoderParam; const value: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_SetParam';
   function AacDecGetFreeBytes(const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetFreeBytes';
   function AacDecOpen(transportFmt: TTransportType; nrOfLayers: Cardinal): PAacDecoderInstance; cdecl; external CLibFdkAac name 'aacDecoder_Open';
-  function AacDecConfigRaw(Self: PAacDecoderInstance; conf: PByte; const length: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_ConfigRaw';
+  function AacDecConfigRaw(Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_ConfigRaw';
   function AacDecFill(Self: PAacDecoderInstance; pBuffer: PByte; const bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
   function AacDecDecodeFrame(Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_DecodeFrame';
   procedure AacDecClose(Self: PAacDecoderInstance); cdecl; external CLibFdkAac name 'aacDecoder_Close';
   function AacDecGetStreamInfo(Self: PAacDecoderInstance): TStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
   function AacDecGetLibInfo(var info: TLibInfo): Integer; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
 
-  function AacEncClose(const hAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
-  function AacEncEncode(const hAacEncoder: PAacEncoderInstance; inBufDesc, outBufDesc: PTAacEncBufDesc; inargs: PTAacEncInArgs; outargs: PTAacEncOutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncEncode';
+  function AacEncClose(out hAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
+  function AacEncEncode(const hAacEncoder: PAacEncoderInstance; const inBufDesc, outBufDesc: PAacEncBufDesc; const inargs: PAacEncInArgs; outargs: PAacEncOutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncEncode';
   function AacEncInfo(const hAacEncoder: PAacEncoderInstance; var Info: TAacEncInfoStruct): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncInfo';
   function AacEncOpen(out hAacEncoder: PAacEncoderInstance; const encModules: Cardinal; const maxChannels: Cardinal): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncOpen';
   function AacEncGetParam(const hAacEncoder: PAacEncoderInstance; const param: TAacEncoderParam): Cardinal; cdecl; external CLibFdkAac name 'aacEncoder_GetParam';
@@ -1404,18 +1433,18 @@ end;
 
 function CanDoParametricStereo(AudioObjectType: TAudioObjectType): Boolean;
 begin
-  Result := AudioObjectType in [AOT_AAC_LC, AOT_SBR, AOT_PS, AOT_ER_BSAC,
-    AOT_DRM_AAC];
+  Result := AudioObjectType in [aotAacLC, aotSBR, aotPS, aotErrorResBSAC,
+    aotDrmAac];
 end;
 
 function IsUsac(AudioObjectType: TAudioObjectType): Boolean;
 begin
-  Result := AudioObjectType = AOT_USAC;
+  Result := AudioObjectType = aotUSAC;
 end;
 
 function IsLowDelay(AudioObjectType: TAudioObjectType): Boolean;
 begin
-  Result := AudioObjectType in [AOT_ER_AAC_LD, AOT_ER_AAC_ELD];
+  Result := AudioObjectType in [aotErrorResAacLD, aotErrorResAacELD];
 end;
 
 function IsChannelElement(ElementId: TMp4ElementID): Boolean;
