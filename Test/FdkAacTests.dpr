@@ -17,7 +17,8 @@ program FdkAacTests;
 uses
   DUnitTestRunner,
   TestLibFdkAac in 'TestLibFdkAac.pas',
-  LibFdkAac in '..\Source\LibFdkAac.pas';
+  LibFdkAac in '..\Source\LibFdkAac.pas',
+  UnitWaveFileReader in 'UnitWaveFileReader.pas';
 
 {$R *.RES}
 

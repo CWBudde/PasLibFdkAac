@@ -1277,7 +1277,169 @@ type
     userDownscaleFactor: Cardinal;
   end;
 
-  TAacDecoderInstance = record end;
+  TAacDecoderInstance = record
+    aacChannels: Integer;                // Amount of AAC decoder channels allocated.
+    ascChannels: array[0..0] of Integer; // Amount of AAC decoder channels signalled in ASC.
+    blockNumber: Integer;                // frame counter
+    nrOfLayers: Integer;
+    outputInterleaved: Integer ;         // PCM output format (interleaved/none interleaved).
+
+(*
+    hInput: HANDLE_TRANSPORTDEC; // Transport layer handle.
+
+  SamplingRateInfo
+      samplingRateInfo[(1 * 1)]; // Sampling Rate information table
+
+  UCHAR
+  frameOK; // Will be unset if a consistency check, e.g. CRC etc. fails
+
+  UINT flags[(1 * 1)]; // Flags for internal decoder use. DO NOT USE
+                          self::streaminfo::flags !
+  UINT elFlags[(3 * ((8) * 2) + (((8) * 2)) / 2 + 4 * (1) +
+                1)]; // Flags for internal decoder use (element specific). DO
+                        NOT USE self::streaminfo::flags !
+
+  MP4_ELEMENT_ID elements[(3 * ((8) * 2) + (((8) * 2)) / 2 + 4 * (1) +
+                           1)]; // Table where the element Id's are listed
+  UCHAR elTags[(3 * ((8) * 2) + (((8) * 2)) / 2 + 4 * (1) +
+                1)]; // Table where the elements id Tags are listed
+  UCHAR chMapping[((8) * 2)]; // Table of MPEG canonical order to bitstream
+                                 channel order mapping.
+
+  AUDIO_CHANNEL_TYPE channelType[(8)]; // Audio channel type of each output
+                                          audio channel (from 0 upto
+                                          numChannels).
+  UCHAR channelIndices[(8)]; // Audio channel index for each output audio
+                                channel (from 0 upto numChannels).
+  /* See ISO/IEC 13818-7:2005(E), 8.5.3.2 Explicit channel mapping using a
+   * program_config_element()
+
+  FDK_channelMapDescr mapDescr; // Describes the output channel mapping.
+  UCHAR chMapIndex; // Index to access one line of the channelOutputMapping
+                       table. This is required because not all 8 channel
+                       configurations have the same output mapping.
+  INT sbrDataLen;   // Expected length of the SBR remaining in bitbuffer after
+                         the AAC payload has been pared.
+
+  CProgramConfig pce;
+  CStreamInfo
+      streamInfo; // Pointer to StreamInfo data (read from the bitstream)
+  CAacDecoderChannelInfo
+      *pAacDecoderChannelInfo[(8)]; // Temporal channel memory
+  CAacDecoderStaticChannelInfo
+      *pAacDecoderStaticChannelInfo[(8)]; // Persistent channel memory
+
+  FIXP_DBL *workBufferCore2;
+  PCM_DEC *pTimeData2;
+  INT timeData2Size;
+
+  CpePersistentData *cpeStaticData[(
+      3 * ((8) * 2) + (((8) * 2)) / 2 + 4 * (1) +
+      1)]; // Pointer to persistent data shared by both channels of a CPE.
+This structure is allocated once for each CPE.
+
+  CConcealParams concealCommonData;
+  CConcealmentMethod concealMethodUser;
+
+  CUsacCoreExtensions usacCoreExt; // Data and handles to extend USAC FD/LPD
+                                      core decoder (SBR, MPS, ...)
+  UINT numUsacElements[(1 * 1)];
+  UCHAR usacStereoConfigIndex[(3 * ((8) * 2) + (((8) * 2)) / 2 + 4 * (1) + 1)];
+  const CSUsacConfig *pUsacConfig[(1 * 1)];
+  INT nbDiv; // number of frame divisions in LPD-domain
+
+  UCHAR useLdQmfTimeAlign;
+
+  INT aacChannelsPrev; // The amount of AAC core channels of the last
+                          successful decode call.
+  AUDIO_CHANNEL_TYPE channelTypePrev[(8)]; // Array holding the channelType
+                                              values of the last successful
+                                              decode call.
+  UCHAR
+  channelIndicesPrev[(8)]; // Array holding the channelIndices values of
+                              the last successful decode call.
+
+  UCHAR
+  downscaleFactor; // Variable to store a supported ELD downscale factor
+                      of 1, 2, 3 or 4
+  UCHAR downscaleFactorInBS; // Variable to store the (not necessarily
+                                supported) ELD downscale factor discovered in
+                                the bitstream
+
+  HANDLE_SBRDECODER hSbrDecoder; // SBR decoder handle.
+  UCHAR sbrEnabled;     // flag to store if SBR has been detected     */
+  UCHAR sbrEnabledPrev; // flag to store if SBR has been detected from
+                           previous frame */
+  UCHAR psPossible;     // flag to store if PS is possible            */
+  SBR_PARAMS sbrParams; // struct to store all sbr parameters         */
+
+  UCHAR *pDrmBsBuffer; // Pointer to dynamic buffer which is used to reverse
+                          the bits of the DRM SBR payload */
+  USHORT drmBsBufferSize; // Size of the dynamic buffer which is used to
+                             reverse the bits of the DRM SBR payload */
+  FDK_QMF_DOMAIN
+  qmfDomain; // Instance of module for QMF domain data handling */
+
+  QMF_MODE qmfModeCurr; // The current QMF mode                       */
+  QMF_MODE qmfModeUser; // The QMF mode requested by the library user */
+
+  HANDLE_AAC_DRC hDrcInfo; // handle to DRC data structure               */
+  INT metadataExpiry;      // Metadata expiry time in milli-seconds.     */
+
+  void *pMpegSurroundDecoder; // pointer to mpeg surround decoder structure */
+  UCHAR mpsEnableUser;        // MPS enable user flag                       */
+  UCHAR mpsEnableCurr;        // MPS enable decoder state                   */
+  UCHAR mpsApplicable;        // MPS applicable                             */
+  SCHAR mpsOutputMode; // setting: normal = 0, binaural = 1, stereo = 2, 5.1ch
+                          = 3 */
+  INT mpsOutChannelsLast; // The amount of channels returned by the last
+                             successful MPS decoder call. */
+  INT mpsFrameSizeLast;   // The frame length returned by the last successful
+                             MPS decoder call. */
+
+  CAncData ancData; // structure to handle ancillary data         */
+
+  HANDLE_PCM_DOWNMIX hPcmUtils; // privat data for the PCM utils. */
+
+  TDLimiterPtr hLimiter;   // Handle of time domain limiter.             */
+  UCHAR limiterEnableUser; // The limiter configuration requested by the
+                              library user */
+  UCHAR limiterEnableCurr; // The current limiter configuration.         */
+  FIXP_DBL extGain[1]; // Gain that must be applied to the output signal. */
+  UINT extGainDelay;   // Delay that must be accounted for extGain. */
+
+  INT_PCM pcmOutputBuffer[(8) * (1024 * 2)];
+
+  HANDLE_DRC_DECODER hUniDrcDecoder;
+  UCHAR multibandDrcPresent;
+  UCHAR numTimeSlots;
+  UINT loudnessInfoSetPosition[3];
+  SCHAR defaultTargetLoudness;
+
+  INT_PCM
+  *pTimeDataFlush[((8) * 2)]; // Pointer to the flushed time data which
+                                 will be used for the crossfade in case of
+                                 an USAC DASH IPF config change */
+
+  UCHAR flushStatus;     // Indicates flush status: on|off */
+  SCHAR flushCnt;        // Flush frame counter */
+  UCHAR buildUpStatus;   // Indicates build up status: on|off */
+  SCHAR buildUpCnt;      // Build up frame counter */
+  UCHAR hasAudioPreRoll; // Indicates preRoll status: on|off */
+  UINT prerollAULength[AACDEC_MAX_NUM_PREROLL_AU + 1]; // Relative offset of
+                                                          the prerollAU end
+                                                          position to the AU
+                                                          start position in the
+                                                          bitstream */
+  INT accessUnit; // Number of the actual processed preroll accessUnit */
+  UCHAR applyCrossfade; // if set crossfade for seamless stream switching is
+                           applied */
+
+  FDK_SignalDelay usacResidualDelay; // Delay residual signal to compensate
+                                        for eSBR delay of DMX signal in case of
+                                        stereoConfigIndex==2. */
+*)
+  end;
   PAacDecoderInstance = ^TAacDecoderInstance;
 
   TAacEncoderInstance = record
@@ -1293,7 +1455,7 @@ type
   TAacDecGetFreeBytes = function (const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl;
   TAacDecOpen = function (transportFmt: TTransportType; nrOfLayers: Cardinal): TAacDecoderError; cdecl;
   TAacDecConfigRaw = function (Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl;
-  TAacDecFill = function (Self: PAacDecoderInstance; pBuffer: PByte; const bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl;
+  TAacDecFill = function (Self: PAacDecoderInstance; pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl;
   TAacDecDecodeFrame = function (Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl;
   TAacDecClose = procedure (Self: PAacDecoderInstance); cdecl;
   TAacDecGetStreamInfo = function (Self: PAacDecoderInstance): TStreamInfo; cdecl;
@@ -1336,7 +1498,7 @@ var
   function AacDecGetFreeBytes(const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetFreeBytes';
   function AacDecOpen(transportFmt: TTransportType; nrOfLayers: Cardinal): PAacDecoderInstance; cdecl; external CLibFdkAac name 'aacDecoder_Open';
   function AacDecConfigRaw(Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_ConfigRaw';
-  function AacDecFill(Self: PAacDecoderInstance; pBuffer: PByte; const bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
+  function AacDecFill(Self: PAacDecoderInstance; pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
   function AacDecDecodeFrame(Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_DecodeFrame';
   procedure AacDecClose(Self: PAacDecoderInstance); cdecl; external CLibFdkAac name 'aacDecoder_Close';
   function AacDecGetStreamInfo(Self: PAacDecoderInstance): TStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
