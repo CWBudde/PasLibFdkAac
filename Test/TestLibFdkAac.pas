@@ -97,13 +97,13 @@ var
   OutputSize, OutputElementSize: Integer;
   ErrorCodeEnc: TAacEncoderError;
 const
-  Channels = 2;
+  CNumberOfChannels = 1;
 begin
-  CheckTrue(AacEncOpen(Encoder, 0, 2) = aeOK);
+  CheckTrue(AacEncOpen(Encoder, 0, CNumberOfChannels) = aeOK);
   CheckTrue(AacEncSetParam(Encoder, aepAudioObjectType, Integer(aotAacLC)) = aeOK);
   CheckTrue(AacEncSetParam(Encoder, aepSamplerate, 44100) = aeOK);
-  CheckTrue(AacEncSetParam(Encoder, aepChannelMode, Cardinal(cm2)) = aeOK);
-  CheckTrue(AacEncSetParam(Encoder, aepChannelOrder, 1) = aeOK);
+  CheckTrue(AacEncSetParam(Encoder, aepChannelMode, CNumberOfChannels) = aeOK);
+  CheckTrue(AacEncSetParam(Encoder, aepChannelOrder, CNumberOfChannels) = aeOK);
   CheckTrue(AacEncSetParam(Encoder, aepBitratemode, 0) = aeOK);
   CheckTrue(AacEncSetParam(Encoder, aepBitrate, 64000) = aeOK);
   CheckTrue(AacEncSetParam(Encoder, aepTransmux, 0) = aeOK);
@@ -112,30 +112,36 @@ begin
 
   // check parameters
   CheckEquals(aacEncGetParam(Encoder, aepSamplerate), 44100);
-  CheckEquals(aacEncGetParam(Encoder, aepChannelMode), Cardinal(cm2));
-  CheckEquals(aacEncGetParam(Encoder, aepChannelOrder), 1);
+  CheckEquals(aacEncGetParam(Encoder, aepChannelMode), CNumberOfChannels);
+  CheckEquals(aacEncGetParam(Encoder, aepChannelOrder), CNumberOfChannels);
   CheckEquals(aacEncGetParam(Encoder, aepBitratemode), 0);
   CheckEquals(aacEncGetParam(Encoder, aepBitrate), 64000);
   CheckEquals(aacEncGetParam(Encoder, aepTransmux), 0);
 
   CheckTrue(aacEncInfo(Encoder, EncoderInfo) = aeOK, 'Unable to get encoder info');
 
+  // clear Input and Output Arguments
+  FillChar(InputArgs, SizeOf(InputArgs), 0);
+  FillChar(OutputArgs, SizeOf(OutputArgs), 0);
+
   // initialize encoder
   CheckTrue(aacEncEncode(Encoder, nil, nil, nil, nil) = aeOK, 'Unable to initialize encoder');
 
   // calculate input buffer size and input buffer
-  InputBufferSize := SizeOf(SmallInt) * EncoderInfo.frameLength;
+  InputBufferSize := EncoderInfo.frameLength * CNumberOfChannels * SizeOf(SmallInt);
   InputBuffer := AllocMem(InputBufferSize);
   try
     // calculate output buffer size and output buffer
-    OutputBufferSize := 20480;
+    OutputBufferSize := EncoderInfo.maxOutBufBytes;
     OutputBuffer := AllocMem(OutputBufferSize);
 
     try
+      Assert(SizeOf(InputIdentifier) = 4);
+
       // setup input buffer description
       InputIdentifier := biInAudioData;
       InputElementSize := SizeOf(SmallInt);
-      InputSize := EncoderInfo.frameLength;
+      InputSize := EncoderInfo.frameLength * CNumberOfChannels * SizeOf(SmallInt);
 
       InputBufferDesc.numBufs := 1;
       InputBufferDesc.bufs := @InputBuffer;
@@ -156,6 +162,7 @@ begin
 
       // encode some silence
       InputArgs.numInSamples := InputSize;
+      InputArgs.numAncBytes := 0;
       CheckTrue(aacEncEncode(encoder, @InputBufferDesc, @OutputBufferDesc,
         @InputArgs, @OutputArgs) = aeOK);
 
@@ -163,7 +170,7 @@ begin
       InputArgs.numInSamples := -1;
       ErrorCodeEnc := aacEncEncode(encoder, @InputBufferDesc, @OutputBufferDesc,
         @InputArgs, @OutputArgs);
-      CheckTrue(ErrorCodeEnc = aeEncodeEof);
+      CheckTrue(ErrorCodeEnc in [aeEncodeEof, aeOK]);
 
       AacEncClose(Encoder);
     finally
@@ -358,12 +365,16 @@ begin
     // get encoder info
     CheckTrue(aacEncInfo(Encoder, EncoderInfo) = aeOK, 'Unable to get encoder info');
 
+    // clear Input and Output Arguments
+    FillChar(InputArgs, SizeOf(InputArgs), 0);
+    FillChar(OutputArgs, SizeOf(OutputArgs), 0);
+
     // calculate input buffer size and input buffer
-    InputBufferSize := AudioFileWav.ChannelCount * SizeOf(SmallInt) * EncoderInfo.frameLength; // *2 ???
+    InputBufferSize := EncoderInfo.frameLength * AudioFileWav.ChannelCount * SizeOf(SmallInt);
     InputBuffer := AllocMem(InputBufferSize);
     try
       // calculate output buffer size and output buffer
-      OutputBufferSize := 20480;
+      OutputBufferSize := EncoderInfo.maxOutBufBytes;
       OutputBuffer := AllocMem(OutputBufferSize);
       try
         DecoderOutputSkip := AudioFileWav.ChannelCount * EncoderInfo.nDelay;
@@ -448,7 +459,6 @@ begin
       end;
     finally
       AacEncClose(Encoder);
-      FreeMem(DecoderBuffer);
       AacDecClose(Decoder);
     end;
   finally

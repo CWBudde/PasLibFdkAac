@@ -1,5 +1,7 @@
 unit LibFdkAac;
 
+{$Z4}
+
 interface
 
 {-$DEFINE DynLink}
@@ -787,7 +789,7 @@ type
     biInMetadataSetup = 2, // Setup structure for embedding meta data.
 
     // Output buffer identifier.
-     biOutBitstreamData = 3, // Buffer holds bitstream output data.
+    biOutBitstreamData = 3, // Buffer holds bitstream output data.
     biOutAccessUnitSizes = 4 // Buffer contains sizes of each access unit. This information is necessary for superframing.
   );
   PAacEncBufferIdentifier = ^TAacEncBufferIdentifier;
