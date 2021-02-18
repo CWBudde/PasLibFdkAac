@@ -547,6 +547,7 @@ type
     versionStr: array[0..31] of AnsiChar;
   end;
   PLibInfo = ^TLibInfo;
+  TLibInfoArray = array[TFdkModuleID] of TLibInfo;
 
   TFDK_bufDescr = record
     ppBase: Pointer;     // Pointer to an array containing buffer base addresses. Set to NULL for buffer requirement info.
@@ -937,13 +938,14 @@ type
     end;
   end;
 
-const
-  AACDEC_CLRHIST = 8;
-  AACDEC_CONCEAL = 1;
-  AACDEC_FLUSH   = 2;
-  AACDEC_INTR    = 4;
+  TAacDecodeFrameFlag = (
+    dfDoConcealment        = 0,
+    dfFlushFilterBanks     = 1,
+    dfInputDataIsContinous = 2,
+    dfClearHistoryBuffers  = 3
+  );
+  TAacDecodeFrameFlags = set of TAacDecodeFrameFlag;
 
-type
   TAacMD_PROFILE = (
     AacMD_PROFILE_MPEG_STANDARD = 0,
       (* The standard profile creates a mixdown signal based on the advanced
@@ -1247,8 +1249,8 @@ type
          If loudness normalization is active, the value corresponds to the target loudness value set with ::AacDRC_REFERENCE_LEVEL.
          If loudness normalization is not active, the output loudness value corresponds to the loudness metadata given in the bitstream.
          Loudness metadata can originate from MPEG-4 DRC or MPEG-D DRC. *)
-
   end;
+  PStreamInfo = ^TStreamInfo;
 
   TUserParam = record
     userAOT: TAudioObjectType; // Audio Object Type.
@@ -1454,13 +1456,13 @@ This structure is allocated once for each CPE.
   TAacDecAncDataInit = function (Self: PAacDecoderInstance; Buffer: PByte; Size: Integer): TAacDecoderError; cdecl;
   TAacDecAncDataGet = function (Self: PAacDecoderInstance; index: Integer; var Buffer: PByte; var Size: Integer): TAacDecoderError; cdecl;
   TAacDecSetParam = function (const Self: PAacDecoderInstance; const param: TAacDecParam; const value: Integer): TAacDecoderError; cdecl;
-  TAacDecGetFreeBytes = function (const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl;
+  TAacDecGetFreeBytes = function (const Self: PAacDecoderInstance; var FreeBytes: Cardinal): TAacDecoderError; cdecl;
   TAacDecOpen = function (transportFmt: TTransportType; nrOfLayers: Cardinal): TAacDecoderError; cdecl;
   TAacDecConfigRaw = function (Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl;
-  TAacDecFill = function (Self: PAacDecoderInstance; pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl;
+  TAacDecFill = function (Self: PAacDecoderInstance; var pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl;
   TAacDecDecodeFrame = function (Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl;
   TAacDecClose = procedure (Self: PAacDecoderInstance); cdecl;
-  TAacDecGetStreamInfo = function (Self: PAacDecoderInstance): TStreamInfo; cdecl;
+  TAacDecGetStreamInfo = function (Self: PAacDecoderInstance): PStreamInfo; cdecl;
   TAacDecGetLibInfo = function (var info: TLibInfo): Integer; cdecl;
 
   TAacEncClose = function (out phAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl;
@@ -1497,14 +1499,14 @@ var
   function AacDecAncDataInit(Self: PAacDecoderInstance; Buffer: PByte; Size: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_AncDataInit';
   function AacDecAncDataGet(Self: PAacDecoderInstance; index: Integer; var Buffer: PByte; var Size: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_AncDataGet';
   function AacDecSetParam(const Self: PAacDecoderInstance; const param: TAacDecoderParam; const value: Integer): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_SetParam';
-  function AacDecGetFreeBytes(const Self: PAacDecoderInstance; varpFreeBytes: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetFreeBytes';
+  function AacDecGetFreeBytes(const Self: PAacDecoderInstance; var FreeBytes: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetFreeBytes';
   function AacDecOpen(transportFmt: TTransportType; nrOfLayers: Cardinal): PAacDecoderInstance; cdecl; external CLibFdkAac name 'aacDecoder_Open';
   function AacDecConfigRaw(Self: PAacDecoderInstance; conf: PByte; const length: Byte): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_ConfigRaw';
-  function AacDecFill(Self: PAacDecoderInstance; pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
+  function AacDecFill(Self: PAacDecoderInstance; var pBuffer: PByte; var bufferSize: Cardinal; var bytesValid: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_Fill';
   function AacDecDecodeFrame(Self: PAacDecoderInstance; pTimeData: Pointer; const timeDataSize: Integer; const flags: Cardinal): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_DecodeFrame';
   procedure AacDecClose(Self: PAacDecoderInstance); cdecl; external CLibFdkAac name 'aacDecoder_Close';
-  function AacDecGetStreamInfo(Self: PAacDecoderInstance): TStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
-  function AacDecGetLibInfo(var info: TLibInfo): Integer; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
+  function AacDecGetStreamInfo(Self: PAacDecoderInstance): PStreamInfo; cdecl; external CLibFdkAac name 'aacDecoder_GetStreamInfo';
+  function AacDecGetLibInfo(var info: TLibInfo): TAacDecoderError; cdecl; external CLibFdkAac name 'aacDecoder_GetLibInfo';
 
   function AacEncClose(out hAacEncoder: PAacEncoderInstance): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncClose';
   function AacEncEncode(const hAacEncoder: PAacEncoderInstance; const inBufDesc, outBufDesc: PAacEncBufDesc; const inargs: PAacEncInArgs; outargs: PAacEncOutArgs): TAacEncoderError; cdecl; external CLibFdkAac name 'aacEncEncode';
