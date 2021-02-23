@@ -1,4 +1,4 @@
-unit UnitWaveFileWriter;
+unit UnitWaveFile;
 
 interface
 
