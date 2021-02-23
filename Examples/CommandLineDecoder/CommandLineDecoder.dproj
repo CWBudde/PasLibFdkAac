@@ -150,7 +150,7 @@
         <DCCReference Include="..\..\Source\LibFdkAac.pas"/>
         <DCCReference Include="..\..\Source\UnitFdkAac.pas"/>
         <DCCReference Include="..\..\Source\UnitAacHeader.pas"/>
-        <DCCReference Include="..\..\Source\UnitWaveFileWriter.pas"/>
+        <DCCReference Include="..\..\Source\UnitWaveFile.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

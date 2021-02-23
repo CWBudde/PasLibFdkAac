@@ -210,7 +210,7 @@ begin
       try
         repeat
           ReadBytes := FileStream.Read(Buffer^[0], ReadBytes);
-          ErrorCodeDec := AacDecFill(Decoder, @Buffer^[0], ReadBytes, ValidBytes);
+          ErrorCodeDec := AacDecFill(Decoder, PByte(@Buffer^[0]), ReadBytes, ValidBytes);
         until FileStream.Position = FileStream.Size;
       finally
         FreeMem(Buffer);

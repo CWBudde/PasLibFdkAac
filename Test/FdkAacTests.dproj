@@ -116,7 +116,8 @@
         </DelphiCompile>
         <DCCReference Include="TestLibFdkAac.pas"/>
         <DCCReference Include="..\Source\LibFdkAac.pas"/>
-        <DCCReference Include="UnitWaveFileReader.pas"/>
+        <DCCReference Include="..\Source\UnitWaveFile.pas"/>
+        <DCCReference Include="..\Source\UnitFdkAac.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

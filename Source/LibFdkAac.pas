@@ -32,7 +32,7 @@ type
     aeInvalidHandle         = $0020, // Handle passed to function call was invalid.
     aeMemoryError           = $0021, // Memory allocation failed.
     aeUnsupportedParameter  = $0022, // Parameter not available.
-    aeInvalid_Config        = $0023, // Configuration not provided.
+    aeInvalidConfig         = $0023, // Configuration not provided.
     aeInitError             = $0040, // General initialization error.
     aeInitAacError          = $0041, // AAC library initialization error.
     aeInitSbrError          = $0042, // SBR library initialization error.

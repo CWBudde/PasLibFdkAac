@@ -22,9 +22,9 @@ var
   EncoderInfo: TAacEncInfoStruct;
 
 	InputBufferSize: Integer;
-	InputBuffer: PSmallInt;
+	InputBuffer: PByte;
   OutputBufferSize: Integer;
-  OutputBuffer: PByteArray;
+  OutputBuffer: PByte;
 
   InputBufferDesc, OutputBufferDesc: TAacEncBufDesc;
   InputArgs: TAacEncInArgs;
@@ -34,7 +34,6 @@ var
   OutputIdentifier: TAacEncBufferIdentifier;
   OutputSize, OutputElementSize: Integer;
   ErrorCodeEnc: TAacEncoderError;
-  SamplePos: Integer;
   ReadBytes: Integer;
 begin
   Encoder := TFdkAacEncoder.Create(0, InputFile.ChannelCount);
@@ -42,7 +41,7 @@ begin
   Encoder.Samplerate := 44100;
   Encoder.ChannelMode := TChannelMode(InputFile.ChannelCount);
   Encoder.ChannelOrder := 1;
-  Encoder.Bitrate := 0;
+  Encoder.BitrateMode := 0;
   Encoder.Bitrate := 64000;
   Encoder.Transmux := ttMp4Adts;
 
@@ -86,23 +85,19 @@ begin
       OutputBufferDesc.bufSizes := @OutputSize;
       OutputBufferDesc.bufElSizes := @OutputElementSize;
 
-      InputFile.ReadAudioData(PByte(InputBuffer), 0, 0);
+      InputFile.ReadAudioData(InputBuffer, 0, 0);
 
-      SamplePos := 0;
       while True do
       begin
         // read buffer
-        ReadBytes := InputFile.ReadAudioData(PByte(InputBuffer), InputSize);
+        ReadBytes := InputFile.ReadAudioData(InputBuffer, InputSize);
         if InputSize <> ReadBytes then
           InputSize := ReadBytes;
 
         if ReadBytes <= 0 then
-          InputArgs.numInSamples := -1
+          break
         else
-        begin
           InputArgs.numInSamples := ReadBytes div 2;
-          // append_encoder_input(convert_buf, in_args.numInSamples);
-        end;
 
         ErrorCodeEnc := Encoder.Encode(@InputBufferDesc, @OutputBufferDesc, @InputArgs, @OutputArgs);
         if ErrorCodeEnc <> aeOK then
@@ -118,13 +113,15 @@ begin
         OutputStream.Write(OutputBuffer^, OutputArgs.numOutBytes);
       end;
 
+
       // flush file
       InputArgs.numInSamples := -1;
       ErrorCodeEnc := Encoder.Encode(@InputBufferDesc, @OutputBufferDesc,
         @InputArgs, @OutputArgs);
       Assert(ErrorCodeEnc in [aeEncodeEof, aeOK]);
 
-      OutputStream.Write(OutputBuffer^, OutputArgs.numOutBytes);
+      if OutputArgs.numOutBytes >= 0 then
+        OutputStream.Write(OutputBuffer^, OutputArgs.numOutBytes);
 
       Encoder.Destroy;
     finally
@@ -160,9 +157,9 @@ begin
   InputStream := TMemoryStream.Create;
   try
     InputStream.LoadFromFile(InputFile);
-    try
-      WavFile := TAudioFileContainerWAV.Create(InputStream);
 
+    WavFile := TAudioFileContainerWAV.Create(InputStream);
+    try
       OutputStream := TMemoryStream.Create;
       try
         EncodeWav(WavFile, OutputStream);

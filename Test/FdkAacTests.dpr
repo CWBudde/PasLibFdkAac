@@ -18,7 +18,8 @@ uses
   DUnitTestRunner,
   TestLibFdkAac in 'TestLibFdkAac.pas',
   LibFdkAac in '..\Source\LibFdkAac.pas',
-  UnitWaveFileReader in 'UnitWaveFileReader.pas';
+  UnitWaveFile in '..\Source\UnitWaveFile.pas',
+  UnitFdkAac in '..\Source\UnitFdkAac.pas';
 
 {$R *.RES}
 

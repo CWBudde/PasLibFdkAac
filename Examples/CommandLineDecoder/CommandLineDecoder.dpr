@@ -10,7 +10,7 @@ uses
   LibFdkAac in '..\..\Source\LibFdkAac.pas',
   UnitFdkAac in '..\..\Source\UnitFdkAac.pas',
   UnitAacHeader in '..\..\Source\UnitAacHeader.pas',
-  UnitWaveFileWriter in '..\..\Source\UnitWaveFileWriter.pas';
+  UnitWaveFile in '..\..\Source\UnitWaveFile.pas';
 
 procedure PrintUsage;
 begin

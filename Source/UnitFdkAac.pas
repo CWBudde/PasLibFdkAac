@@ -7,6 +7,7 @@ uses
 
 type
   EFdkAacEncoder = class(Exception);
+  EFdkAacEncoderInvalidConfiguration = class(EFdkAacEncoder);
   EFdkAacDecoder = class(Exception);
 
   TFdkAacEncoder = class
@@ -351,7 +352,13 @@ var
 begin
   Error := AacEncSetParam(FHandle, Parameter, Value);
   if Error <> aeOK then
-    raise EFdkAacEncoder.Create('Error setting parameter');
+    case Error of
+      aeInvalidConfig:
+        raise EFdkAacEncoderInvalidConfiguration.Create(
+          'Error setting parameter. Invalid configuration, probably not supported');
+      else
+        raise EFdkAacEncoder.Create('Error setting parameter');
+    end;
 end;
 
 procedure TFdkAacEncoder.SetPeakBitrate(const Value: Cardinal);
