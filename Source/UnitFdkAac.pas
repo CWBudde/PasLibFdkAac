@@ -10,6 +10,21 @@ type
   EFdkAacEncoderInvalidConfiguration = class(EFdkAacEncoder);
   EFdkAacDecoder = class(Exception);
 
+  TBitrateMode = (
+    bmConstant,
+    bmVeryLowBitrate,
+    bmLowBitrate,
+    bmMediumBitrate,
+    bmHighBitrate,
+    bmVeryHighBitrate
+  );
+
+  TSbrMode = (
+    sbrDefault = -1,
+    sbrDisable = 0,
+    sbrEnable = 1
+  );
+
   TFdkAacEncoder = class
   private
     FHandle: PAacEncoderInstance;
@@ -21,7 +36,7 @@ type
     function GetAudioObjectType: TAudioObjectType;
     function GetBandwidth: Boolean;
     function GetBitrate: Cardinal;
-    function GetBitrateMode: Cardinal;
+    function GetBitrateMode: TBitrateMode;
     function GetChannelMode: TChannelMode;
     function GetGranuleLength: Cardinal;
     function GetHeaderPeriod: Cardinal;
@@ -29,7 +44,7 @@ type
     function GetPeakBitrate: Cardinal;
     function GetProtection: Boolean;
     function GetSamplerate: Cardinal;
-    function GetSbrMode: Cardinal;
+    function GetSbrMode: TSbrMode;
     function GetSbrRatio: Byte;
     function GetSignalingMode: TSbrParametricStereoSignaling;
     function GetTpSubframes: Byte;
@@ -39,7 +54,7 @@ type
     procedure SetAudioMuxVer(const Value: Byte);
     procedure SetBandwidth(const Value: Boolean);
     procedure SetBitrate(const Value: Cardinal);
-    procedure SetBitrateMode(const Value: Cardinal);
+    procedure SetBitrateMode(const Value: TBitrateMode);
     procedure SetChannelMode(const Value: TChannelMode);
     procedure SetGranuleLength(const Value: Cardinal);
     procedure SetHeaderPeriod(const Value: Cardinal);
@@ -47,7 +62,7 @@ type
     procedure SetPeakBitrate(const Value: Cardinal);
     procedure SetProtection(const Value: Boolean);
     procedure SetSamplerate(const Value: Cardinal);
-    procedure SetSbrMode(const Value: Cardinal);
+    procedure SetSbrMode(const Value: TSbrMode);
     procedure SetSbrRatio(const Value: Byte);
     procedure SetSignalingMode(const Value: TSbrParametricStereoSignaling);
     procedure SetTpSubframes(const Value: Byte);
@@ -56,11 +71,11 @@ type
     function GetChannelOrder: Byte;
     procedure SetChannelOrder(const Value: Byte);
   public
-    constructor Create(const encModules: Cardinal; const maxChannels: Cardinal);
+    constructor Create(const encModules: Cardinal = 0; const maxChannels: Cardinal = 0);
     destructor Destroy; override;
 
-    function Encode(const InputBufferDescriptor, OutputBufferDescripto: PAacEncBufDesc;
-      const InputArguments: PAacEncInArgs; OutputArguments: PAacEncOutArgs): TAacEncoderError;
+    function Encode(var InputBufferDescriptor, OutputBufferDescriptor: TAacEncBufDesc;
+      var InputArguments: TAacEncInArgs; var OutputArguments: TAacEncOutArgs): TAacEncoderError;
     procedure Initiazlize;
     function Info: TAacEncInfoStruct;
     class function GetLibInfo: TLibInfoArray;
@@ -69,9 +84,9 @@ type
 
     property AudioObjectType: TAudioObjectType read GetAudioObjectType write SetAudioObjectType;
     property Bitrate: Cardinal read GetBitrate write SetBitrate;
-    property BitrateMode: Cardinal read GetBitrateMode write SetBitrateMode;
+    property BitrateMode: TBitrateMode read GetBitrateMode write SetBitrateMode;
     property Samplerate: Cardinal read GetSamplerate write SetSamplerate;
-    property SbrMode: Cardinal read GetSbrMode write SetSbrMode;
+    property SbrMode: TSbrMode read GetSbrMode write SetSbrMode;
     property GranuleLength: Cardinal read GetGranuleLength write SetGranuleLength;
     property ChannelMode: TChannelMode read GetChannelMode write SetChannelMode;
     property ChannelOrder: Byte read GetChannelOrder write SetChannelOrder;
@@ -146,11 +161,13 @@ begin
   inherited;
 end;
 
-function TFdkAacEncoder.Encode(const InputBufferDescriptor, OutputBufferDescripto: PAacEncBufDesc;
-      const InputArguments: PAacEncInArgs; OutputArguments: PAacEncOutArgs): TAacEncoderError;
+function TFdkAacEncoder.Encode(var InputBufferDescriptor,
+  OutputBufferDescriptor: TAacEncBufDesc;
+  var InputArguments: TAacEncInArgs;
+  var OutputArguments: TAacEncOutArgs): TAacEncoderError;
 begin
-  Result := AacEncEncode(FHandle, InputBufferDescriptor, OutputBufferDescripto,
-    InputArguments, OutputArguments);
+  Result := AacEncEncode(FHandle, @InputBufferDescriptor,
+    @OutputBufferDescriptor, @InputArguments, @OutputArguments);
 end;
 
 function TFdkAacEncoder.GetAfterburner: Boolean;
@@ -183,9 +200,9 @@ begin
   Result := AacEncGetParam(FHandle, aepBitrate);
 end;
 
-function TFdkAacEncoder.GetBitrateMode: Cardinal;
+function TFdkAacEncoder.GetBitrateMode: TBitrateMode;
 begin
-  Result := AacEncGetParam(FHandle, aepBitrateMode);
+  Result := TBitrateMode(AacEncGetParam(FHandle, aepBitrateMode));
 end;
 
 function TFdkAacEncoder.GetChannelMode: TChannelMode;
@@ -242,9 +259,9 @@ begin
   Result := AacEncGetParam(FHandle, aepSamplerate);
 end;
 
-function TFdkAacEncoder.GetSbrMode: Cardinal;
+function TFdkAacEncoder.GetSbrMode: TSbrMode;
 begin
-  Result := AacEncGetParam(FHandle, aepSbrMode);
+  Result := TSbrMode(AacEncGetParam(FHandle, aepSbrMode));
 end;
 
 function TFdkAacEncoder.GetSbrRatio: Byte;
@@ -302,7 +319,12 @@ end;
 
 procedure TFdkAacEncoder.SetAudioObjectType(const Value: TAudioObjectType);
 begin
-  SetParam(aepAudioObjectType, Cardinal(Value));
+  case Value of
+    aotAacLC, aotSBR, aotPS, aotErrorResAacELD, aotMp2AacLC, aotMp2Sbr:
+      SetParam(aepAudioObjectType, Cardinal(Value));
+    else
+      raise EFdkAacEncoderInvalidConfiguration.Create('Invalid audio object type');
+  end;
 end;
 
 procedure TFdkAacEncoder.SetBandwidth(const Value: Boolean);
@@ -315,7 +337,7 @@ begin
   SetParam(aepBitrate, Cardinal(Value));
 end;
 
-procedure TFdkAacEncoder.SetBitrateMode(const Value: Cardinal);
+procedure TFdkAacEncoder.SetBitrateMode(const Value: TBitrateMode);
 begin
   SetParam(aepBitrateMode, Cardinal(Value));
 end;
@@ -332,7 +354,12 @@ end;
 
 procedure TFdkAacEncoder.SetGranuleLength(const Value: Cardinal);
 begin
-  SetParam(aepGranuleLength, Cardinal(Value));
+  case Value of
+    1024, 512, 480, 256, 240, 128, 120:
+      SetParam(aepGranuleLength, Cardinal(Value));
+    else
+      raise EFdkAacEncoderInvalidConfiguration.Create('Invalid granule length');
+  end;
 end;
 
 procedure TFdkAacEncoder.SetHeaderPeriod(const Value: Cardinal);
@@ -373,10 +400,16 @@ end;
 
 procedure TFdkAacEncoder.SetSamplerate(const Value: Cardinal);
 begin
-  SetParam(aepSamplerate, Cardinal(Value));
+  case Value of
+    8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000, 88200,
+    96000:
+      SetParam(aepSamplerate, Cardinal(Value));
+    else
+      raise EFdkAacEncoderInvalidConfiguration.Create('Invalid Samplerate');
+  end;
 end;
 
-procedure TFdkAacEncoder.SetSbrMode(const Value: Cardinal);
+procedure TFdkAacEncoder.SetSbrMode(const Value: TSbrMode);
 begin
   SetParam(aepSbrMode, Cardinal(Value));
 end;

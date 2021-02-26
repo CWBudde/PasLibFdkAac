@@ -41,7 +41,7 @@ begin
   Encoder.Samplerate := 44100;
   Encoder.ChannelMode := TChannelMode(InputFile.ChannelCount);
   Encoder.ChannelOrder := 1;
-  Encoder.BitrateMode := 0;
+  Encoder.BitrateMode := bmConstant;
   Encoder.Bitrate := 64000;
   Encoder.Transmux := ttMp4Adts;
 
@@ -99,7 +99,8 @@ begin
         else
           InputArgs.numInSamples := ReadBytes div 2;
 
-        ErrorCodeEnc := Encoder.Encode(@InputBufferDesc, @OutputBufferDesc, @InputArgs, @OutputArgs);
+        ErrorCodeEnc := Encoder.Encode(InputBufferDesc, OutputBufferDesc,
+          InputArgs, OutputArgs);
         if ErrorCodeEnc <> aeOK then
         begin
           if (ErrorCodeEnc = aeEncodeEof) then
@@ -116,8 +117,8 @@ begin
 
       // flush file
       InputArgs.numInSamples := -1;
-      ErrorCodeEnc := Encoder.Encode(@InputBufferDesc, @OutputBufferDesc,
-        @InputArgs, @OutputArgs);
+      ErrorCodeEnc := Encoder.Encode(InputBufferDesc, OutputBufferDesc,
+        InputArgs, OutputArgs);
       Assert(ErrorCodeEnc in [aeEncodeEof, aeOK]);
 
       if OutputArgs.numOutBytes >= 0 then
